@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //conect db
-const db = process.env.DB;
+const db = process.env.db;
 
 mongoose.connect(db, {
   useNewUrlParser: true,
