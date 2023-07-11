@@ -67,6 +67,19 @@ app.post('/getExpenses',async (req, res) =>{
     }
 })
 
+app.get(`/deleteExpense/:id`,async(req,res)=>{
+    try {
+        let dltId = req.params.id;
+          const dltItem = await expense.findByIdAndDelete({ _id: dltId }).then(() => {
+            res.status(200).json({status: 'success', msg: ' Data deleted successfully'});
+        })
+        
+    } catch (error) {
+        console.log(error);
+    }
+
+})
+
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log('Server running on port' +  " " + PORT);
