@@ -49,13 +49,13 @@ app.get('/expense', async(req, res) => {
     const allDatas = await expense.aggregate([
         {$group: { 
             _id: null,
-             totalValue: {$sum: "$value"}, 
+             totalValue: {$sum: "$amount"}, 
              enabledValue: {$sum: {
                  $cond: [
                      // Condition to test 
                      {$eq: ["$enabled", "on"] },
                      // True
-                     "$value",
+                     "$amount",
                      // False
                      0
                 ] 
