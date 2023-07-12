@@ -46,9 +46,25 @@ app.get('/', (req, res) => {
 
 app.get('/expense', async(req, res) => {
     const allData = await expense.find({});
+    const allDatas = await expense.aggregate([
+        {$group: { 
+            _id: null,
+             totalValue: {$sum: "$value"}, 
+             enabledValue: {$sum: {
+                 $cond: [
+                     // Condition to test 
+                     {$eq: ["$enabled", "on"] },
+                     // True
+                     "$value",
+                     // False
+                     0
+                ] 
+             }}
+        }}
+    ])
    
  
-    return res.status(200).json({status: 'success', data: allData});
+    return res.status(200).json({status: 'success', data: allData , sum: allDatas});
 });
 
 app.post('/getExpenses',async (req, res) =>{
