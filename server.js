@@ -46,9 +46,15 @@ app.get('/', (req, res) => {
 
 app.get('/expense', async(req, res) => {
     const allData = await expense.find({});
-    console.log(allData);
+    const sumOfPrice = await expense.find({}).aggregate([
+        {
+          $project: {
+            examTotal: { $sum: [ "$amount"] }
+          }
+        }
+     ])
  
-    return res.status(200).json({status: 'success', data: allData});
+    return res.status(200).json({status: 'success', data: allData,sum:sumOfPrice});
 });
 
 app.post('/getExpenses',async (req, res) =>{
