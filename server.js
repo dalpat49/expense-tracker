@@ -33,6 +33,7 @@ mongoose.connect(db, {
 const expesnseData = new mongoose.Schema({
     amount: String,
     description: String,
+    savedDate:String,
   });
 
 //expense model data
@@ -50,13 +51,15 @@ app.get('/expense', async(req, res) => {
 
 app.post('/getExpenses',async (req, res) =>{
     try{
-        const { description1 , amount1} = req.body;
+        const { description1 , amount1 ,savedate} = req.body;
         console.log(amount1)
         console.log(description1);
+        
 
         const additemcategory = new expense({
             description:description1,
             amount:amount1,
+            savedDate:savedate,
         }).save().then(
             res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
         )
