@@ -31,7 +31,7 @@ mongoose.connect(db, {
 
 //moongoose contact form schema
 const expesnseData = new mongoose.Schema({
-    amount: String,
+    amount: Number,
     description: String,
     savedDate:String,
     username:String,
@@ -47,9 +47,11 @@ app.get('/', (req, res) => {
 app.get('/expense', async(req, res) => {
     const allData = await expense.find({});
     let sumOfPrice = 0;
+    console.log(allData);
     for (let i = 0; i < allData.length; i++){
         sumOfPrice += allData[i].Number(amount);
     }
+    alert(sumOfPrice);
     return res.status(200).json({status: 'success', data: allData , sum:sumOfPrice});
 });
 
@@ -62,7 +64,7 @@ app.post('/getExpenses',async (req, res) =>{
 
         const additemcategory = new expense({
             description:description1,
-            amount:amount1,
+            amount:Number(amount1),
             savedDate:savedate,
             username:userName
         }).save().then(
