@@ -49,7 +49,7 @@ app.get('/expense', async(req, res) => {
     const sumOfPrice = await expense.aggregate({
         $group: {
             _id: '',
-            totalAmount: { $sum: '$total' }
+            totalAmount: { $sum: '$amount' }
         }
      }, {
         $project: {
