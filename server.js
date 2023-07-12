@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 
 app.get('/expense', async(req, res) => {
     const allData = await expense.find({});
-    const sumOfPrice = await expense.aaggregate({
+    const sumOfPrice = await expense.aggregate({
         $group: {
             _id: '',
             totalAmount: { $sum: '$total' }
