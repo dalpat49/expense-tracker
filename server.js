@@ -64,7 +64,7 @@ app.get('/expense', async(req, res) => {
     ])
    
  
-    return res.status(200).json({status: 'success', data: allData , sum: allDatas});
+    return res.status(200).json({status: 'success', data: allData , sum: allDatas[0].totalValue});
 });
 
 app.post('/getExpenses',async (req, res) =>{
