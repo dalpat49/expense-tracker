@@ -46,13 +46,9 @@ app.get('/', (req, res) => {
 
 app.get('/expense', async(req, res) => {
     const allData = await expense.find({});
-    let sumOfPrice = 0;
     console.log(allData);
-    for (let i = 0; i < allData.length; i++){
-        sumOfPrice += allData[i].Number(amount);
-    }
-    alert(sumOfPrice);
-    return res.status(200).json({status: 'success', data: allData , sum:sumOfPrice});
+ 
+    return res.status(200).json({status: 'success', data: allData});
 });
 
 app.post('/getExpenses',async (req, res) =>{
