@@ -98,10 +98,10 @@ app.post('/getExpenses',async (req, res) =>{
 
 app.post('/saveToken',async (req, res) =>{
     try{
-        const { expoPushToken } = req.body;
+        const { tokenNew } = req.body;
 
         const addToken = new expoToken({
-          Dtoken:expoPushToken,
+          Dtoken:tokenNew,
         }).save().then(
             res.status(200).json({status: 'Success', msg: 'token added successfully'})
         )
