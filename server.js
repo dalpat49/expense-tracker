@@ -40,6 +40,15 @@ const expesnseData = new mongoose.Schema({
 //expense model data
 const expense = mongoose.model("expense",expesnseData);
 
+//moongoose contact form schema
+const saveExpoToken = new mongoose.Schema({
+    Dtoken: String,
+
+  });
+
+//expense model data
+const expoToken = mongoose.model("expoToken",saveExpoToken);
+
 app.get('/', (req, res) => {
     res.send('hello')
 })
@@ -70,8 +79,6 @@ app.get('/expense', async(req, res) => {
 app.post('/getExpenses',async (req, res) =>{
     try{
         const { description1 , amount1 ,savedate , userName} = req.body;
-        console.log(amount1)
-        console.log(description1);
 
 
         const additemcategory = new expense({
@@ -88,6 +95,53 @@ app.post('/getExpenses',async (req, res) =>{
         console.log(err);
     }
 })
+
+app.post('/saveToken',async (req, res) =>{
+    try{
+        const { newtoken } = req.body;
+
+        const addToken = new expoToken({
+          Dtoken:newtoken,
+        }).save().then(
+            res.status(200).json({status: 'Success', msg: 'token added successfully'})
+        )
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
+
+
+// Endpoint to send push notifications
+app.post('/send-notification', async (req, res) => {
+    const { title, message } = req.body;
+    const expoPushToken = '<EXPO_PUSH_TOKEN>';
+  
+    try {
+      const response = await axios.post(
+        'https://expo.io/--/api/v2/push/send',
+        {
+          to: expoPushToken,
+          title,
+          body: message,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        }
+      );
+  
+      console.log('Push notification sent:', response.data);
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error('Error sending push notification:', error);
+      res.status(500).json({ success: false, error: error.message });
+    }
+});
 
 app.get(`/deleteExpense/:id`,async(req,res)=>{
     try {
