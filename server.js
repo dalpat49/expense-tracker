@@ -112,6 +112,18 @@ app.post('/saveToken',async (req, res) =>{
     }
 })
 
+app.get('/getTokens',async (req, res) =>{
+  try{
+    const allTokens = await expoToken.find({});
+
+    return res.status(200).json({status: 'success', data: allTokens });
+
+
+  }
+  catch(err){
+      console.log(err);
+  }
+})
 
 
 // Endpoint to send push notifications
