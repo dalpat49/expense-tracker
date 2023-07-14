@@ -132,8 +132,7 @@ app.post('/userRegister',async (req, res) =>{
             )
         }
         else{
-            
-             res.status(200).json({status:"failed" , msg:"User already registerd"})
+             res.status(200).json({status:"failed" , msg:"User already registerd " , email:ifEmail})
             
         }
 
