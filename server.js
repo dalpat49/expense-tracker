@@ -153,7 +153,7 @@ app.post('/userLogin',async (req, res) =>{
             res.status(400).json({status:"failed" , msg:"User not registred"})
         }
         else if(ifEmail){
-            if(ifEmail.password == password){
+            if(password == ifEmail.password){
                 res.status(200).json({status:"Success"  , msg:"user Login"})
             }
             else{
