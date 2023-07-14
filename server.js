@@ -128,7 +128,7 @@ app.post('/userRegister',async (req, res) =>{
                 password:password,
                 username:userName
             }).save().then(
-                res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
+                res.status(200).json({status: 'Success', msg: 'Data saved successfully', email:ifEmail})
             )
         }
         else{
