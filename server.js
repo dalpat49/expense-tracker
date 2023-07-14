@@ -121,8 +121,8 @@ app.post('/getExpenses',async (req, res) =>{
 app.post('/userRegister',async (req, res) =>{
     try{
         const { email , password ,userName} = req.body;
-        let ifEmail = await user.find({email:email});
-        if(ifEmail.email != email){
+        let ifEmail = await user.findOne({email:email});
+        if(!ifEmail){
             const adddUser = new user({
                 email:email,
                 password:password,
@@ -147,7 +147,7 @@ app.post('/userLogin',async (req, res) =>{
     try{
         const { email , password} = req.body;
 
-        let ifEmail = await user.find({email:email});
+        let ifEmail = await user.findOne({email:email});
 
         if(!ifEmail){
             res.status(400).json({status:"failed" , msg:"User not registred"})
