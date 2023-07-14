@@ -41,6 +41,17 @@ const expesnseData = new mongoose.Schema({
 const expense = mongoose.model("expense",expesnseData);
 
 //moongoose contact form schema
+const uExpense = new mongoose.Schema({
+    amount: Number,
+    description: String,
+    savedDate:String,
+    username:String,
+  });
+
+//expense model data
+const userExpense = mongoose.model("userExpense",uExpense);
+
+//moongoose contact form schema
 const saveExpoToken = new mongoose.Schema({
     Dtoken: String,
 
@@ -96,6 +107,27 @@ app.post('/getExpenses',async (req, res) =>{
     }
 })
 
+
+
+app.post('/userExpensesPOST',async (req, res) =>{
+  try{
+      const { description1 , amount1 ,savedate } = req.body;
+
+
+      const addUserExpense = new userExpense({
+          description:description1,
+          amount:Number(amount1),
+          savedDate:savedate,
+      }).save().then(
+          res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
+      )
+
+  }
+  catch(err){
+      console.log(err);
+  }
+})
+
 app.post('/saveToken',async (req, res) =>{
     try{
         const { tokenNew } = req.body;
@@ -124,36 +156,6 @@ app.get('/getTokens',async (req, res) =>{
       console.log(err);
   }
 })
-
-
-// Endpoint to send push notifications
-app.post('/send-notification', async (req, res) => {
-    const { title, message } = req.body;
-    const expoPushToken = '<EXPO_PUSH_TOKEN>';
-  
-    try {
-      const response = await axios.post(
-        'https://expo.io/--/api/v2/push/send',
-        {
-          to: expoPushToken,
-          title,
-          body: message,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-        }
-      );
-  
-      console.log('Push notification sent:', response.data);
-      res.status(200).json({ success: true });
-    } catch (error) {
-      console.error('Error sending push notification:', error);
-      res.status(500).json({ success: false, error: error.message });
-    }
-});
 
 app.get(`/deleteExpense/:id`,async(req,res)=>{
     try {
