@@ -122,11 +122,7 @@ app.post('/userRegister',async (req, res) =>{
     try{
         const { email , password ,userName} = req.body;
         let ifEmail = await user.find({email:email});
-        if(ifEmail){
-            return res.status(200).json({status:"failed" , msg:"User already registerd"})
-        }
-        else{
-
+        if(!ifEmail){
             const adddUser = new user({
                 email:email,
                 password:password,
@@ -134,6 +130,12 @@ app.post('/userRegister',async (req, res) =>{
             }).save().then(
                 res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
             )
+            
+        }
+        else{
+            
+             res.status(200).json({status:"failed" , msg:"User already registerd"})
+            
         }
 
     }
