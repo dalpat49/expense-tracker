@@ -130,7 +130,6 @@ app.post('/userRegister',async (req, res) =>{
             }).save().then(
                 res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
             )
-            
         }
         else{
             
@@ -143,6 +142,32 @@ app.post('/userRegister',async (req, res) =>{
         console.log(err);
     }
 })
+
+//user register
+app.post('/userLogin',async (req, res) =>{
+    try{
+        const { email , password} = req.body;
+
+        let ifEmail = await user.find({email:email});
+
+        if(!ifEmail){
+            res.status(400).json({status:"failed" , msg:"User not registred"})
+        }
+        else if(ifEmail){
+            if(ifEmail.password == password){
+                res.status(200).json({status:"Success"  , msg:"user Login"})
+            }
+            else{
+                res.status(400).json({status:"failed" , msg:"Incorrect password"})
+            }
+        }
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
 
 
 
