@@ -122,7 +122,7 @@ app.post('/userRegister',async (req, res) =>{
     try{
         const { email , password ,userName} = req.body;
         let ifEmail = await user.find({email:email});
-        if(!ifEmail){
+        if(ifEmail.email != email){
             const adddUser = new user({
                 email:email,
                 password:password,
