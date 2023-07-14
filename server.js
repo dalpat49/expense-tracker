@@ -54,11 +54,21 @@ const userExpense = mongoose.model("userExpense",uExpense);
 //moongoose contact form schema
 const saveExpoToken = new mongoose.Schema({
     Dtoken: String,
-
   });
 
 //expense model data
 const expoToken = mongoose.model("expoToken",saveExpoToken);
+
+
+//moongoose contact form schema
+const newUser = new mongoose.Schema({
+    username: String,
+    password: String,
+    email: String,
+  });
+
+//expense model data
+const user = mongoose.model("user",newUser);
 
 app.get('/', (req, res) => {
     res.send('hello')
@@ -100,6 +110,31 @@ app.post('/getExpenses',async (req, res) =>{
         }).save().then(
             res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
         )
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
+//user register
+app.post('/userRegister',async (req, res) =>{
+    try{
+        const { email , password ,userName} = req.body;
+        let ifEmail = await user.find({email:email});
+        if(ifEmail){
+            return res.status(200).json({status:"failed" , msg:"User already registerd"})
+        }
+        else{
+
+            const adddUser = new user({
+                email:email,
+                password:password,
+                username:userName
+            }).save().then(
+                res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
+            )
+        }
 
     }
     catch(err){
