@@ -6,6 +6,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const mongo = require("mongo");
+const cron = require("node-cron");
 
 const app = express();
 require('dotenv').config();
@@ -54,21 +55,11 @@ const userExpense = mongoose.model("userExpense",uExpense);
 //moongoose contact form schema
 const saveExpoToken = new mongoose.Schema({
     Dtoken: String,
+
   });
 
 //expense model data
 const expoToken = mongoose.model("expoToken",saveExpoToken);
-
-
-//moongoose contact form schema
-const newUser = new mongoose.Schema({
-    username: String,
-    password: String,
-    email: String,
-  });
-
-//expense model data
-const user = mongoose.model("user",newUser);
 
 app.get('/', (req, res) => {
     res.send('hello')
@@ -116,57 +107,6 @@ app.post('/getExpenses',async (req, res) =>{
         console.log(err);
     }
 })
-
-//user register
-app.post('/userRegister',async (req, res) =>{
-    try{
-        const { email , password ,userName} = req.body;
-        let ifEmail = await user.findOne({email:email});
-        if(!ifEmail){
-            const adddUser = new user({
-                email:email,
-                password:password,
-                username:userName
-            }).save().then(
-                res.status(200).json({status: 'Success', msg: 'Data saved successfully', email:ifEmail})
-            )
-        }
-        else{
-             res.status(200).json({status:"failed" , msg:"User already registerd " , email:ifEmail})
-            
-        }
-
-    }
-    catch(err){
-        console.log(err);
-    }
-})
-
-//user register
-app.post('/userLogin',async (req, res) =>{
-    try{
-        const { email , password} = req.body;
-
-        let ifEmail = await user.findOne({email:email});
-
-        if(!ifEmail){
-            res.status(400).json({status:"failed" , msg:"User not registred"})
-        }
-        else if(ifEmail){
-            if(password == ifEmail.password){
-                res.status(200).json({status:"Success"  , msg:"user Login"})
-            }
-            else{
-                res.status(400).json({status:"failed" , msg:"Incorrect password"})
-            }
-        }
-
-    }
-    catch(err){
-        console.log(err);
-    }
-})
-
 
 
 
@@ -230,6 +170,13 @@ app.get(`/deleteExpense/:id`,async(req,res)=>{
     }
 
 })
+
+
+// Creating a cron job which runs on every 10 second
+cron.schedule("*/10 * * * * *", function() {
+    console.log("running a task every 10 second");
+});
+  
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
