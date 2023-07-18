@@ -176,10 +176,7 @@ app.post('/userLogin',async (req, res) =>{
     catch(err){
         console.log(err);
     }
-})
-
-
-
+});
 
 
 app.post('/userExpensesPOST',async (req, res) =>{
@@ -248,18 +245,22 @@ app.post(`/postLocations`,async(req,res)=>{
     try{
         const { device_id , device_lat , device_long  , userName} = req.body;
 
+        let ifDevice = await deviceLocations.findOne({device_id:device_id});
+        
+        if(!ifDevice){
+            res.status(400).json({status:"failed" , msg:"already done"})
+        }
+        else{
+            const addToken = new deviceLocations({
+            device_id: device_id,
+            device_lat: device_lat,
+            device_long: device_long,
+            userName:userName
 
-
-        const addToken = new deviceLocations({
-          device_id: device_id,
-          device_lat: device_lat,
-          device_long: device_long,
-          userName:userName
-
-        }).save().then(
-            res.status(200).json({status: 'Success', msg: 'token added successfully'})
-        )
-
+            }).save().then(
+                res.status(200).json({status: 'Success', msg: 'token added successfully'})
+            )
+        }
     }
     catch(err){
         console.log(err);
@@ -269,7 +270,7 @@ app.post(`/postLocations`,async(req,res)=>{
 app.post('/updateLocations',async(req,res)=>{
     const { device_id , device_lat , device_long  , userName} = req.body;
 
-    const newLocations = await user.updateOne(
+    const newLocations = await deviceLocations.updateOne(
         { device_id: device_id, },
         {
             $set: {
