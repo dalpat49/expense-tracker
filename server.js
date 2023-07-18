@@ -259,7 +259,18 @@ app.post(`/postLocations`,async(req,res)=>{
                 )
         }
         else{
-            res.status(200).json({status: 'Success', msg: 'already there'});
+            const newLocations = await deviceLocations.updateOne(
+                { device_id: device_id, },
+                {
+                    $set: {
+                        device_lat: device_lat,
+                        device_long: device_long,
+                        userName:userName
+                    },
+                }
+            ).then(() => {
+                return res.status(200).json({status: 'Success', msg: 'location updated successfully'})
+            });
         }
     }
     catch(err){
