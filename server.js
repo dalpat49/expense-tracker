@@ -233,14 +233,6 @@ app.post(`/getLocations`,async(req,res)=>{
     }
 })
 
-
-
-// Creating a cron job which runs on every 10 second
-cron.schedule("*/10 * * * * *", function() {
-    console.log("running a task every 10 second");
-});
-  
-
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log('Server running on port' +  " " + PORT);
