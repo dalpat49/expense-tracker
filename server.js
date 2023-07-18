@@ -63,8 +63,8 @@ const expoToken = mongoose.model("expoToken",saveExpoToken);
 //moongoose contact form schema
 const deviceDetails = new mongoose.Schema({
     device_id: String,
-    device_lat: String,
-    device_long: String,
+    device_lat: Number,
+    device_long: Number,
     userName:String
   });
 
