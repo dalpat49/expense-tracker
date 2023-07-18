@@ -286,7 +286,7 @@ app.post('/updateLocations',async(req,res)=>{
 
 
 ///get locations
-app.post(`/getLocations`,async(req,res)=>{
+app.get(`/getLocations`,async(req,res)=>{
     try{
         const allLocations = await deviceLocations.find({});
 
