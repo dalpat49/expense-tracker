@@ -71,6 +71,16 @@ const deviceDetails = new mongoose.Schema({
 //expense model data
 const deviceLocations = mongoose.model("deviceLocations",deviceDetails);
 
+//moongoose contact form schema
+const newUser = new mongoose.Schema({
+    username: String,
+    password: String,
+    email: String,
+  });
+
+//expense model data
+const user = mongoose.model("user",newUser);
+
 app.get('/', (req, res) => {
     res.send('hello')
 })
@@ -117,6 +127,58 @@ app.post('/getExpenses',async (req, res) =>{
         console.log(err);
     }
 })
+
+//user register
+app.post('/userRegister',async (req, res) =>{
+    try{
+        const { email , password ,userName} = req.body;
+        let ifEmail = await user.findOne({email:email});
+        if(!ifEmail){
+            const adddUser = new user({
+                email:email,
+                password:password,
+                username:userName
+            }).save().then(
+                res.status(200).json({status: 'Success', msg: 'Data saved successfully', email:ifEmail})
+            )
+        }
+        else{
+             res.status(200).json({status:"failed" , msg:"User already registerd " , email:ifEmail})
+            
+        }
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
+//user register
+app.post('/userLogin',async (req, res) =>{
+    try{
+        const { email , password} = req.body;
+
+        let ifEmail = await user.findOne({email:email});
+
+        if(!ifEmail){
+            res.status(400).json({status:"failed" , msg:"User not registred"})
+        }
+        else if(ifEmail){
+            if(password == ifEmail.password){
+                res.status(200).json({status:"Success"  , msg:"user Login"})
+            }
+            else{
+                res.status(400).json({status:"failed" , msg:"Incorrect password"})
+            }
+        }
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
+
 
 
 
@@ -185,6 +247,8 @@ app.get(`/deleteExpense/:id`,async(req,res)=>{
 app.post(`/postLocations`,async(req,res)=>{
     try{
         const { device_id , device_lat , device_long  , userName} = req.body;
+
+
 
         const addToken = new deviceLocations({
           device_id: device_id,
