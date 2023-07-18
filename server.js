@@ -259,7 +259,7 @@ app.post(`/postLocations`,async(req,res)=>{
                 )
         }
         else{
-            res.status(400).json({status:"failed" , msg:"already done"});
+            res.status(200).json({status: 'Success', msg: 'already there'});
         }
     }
     catch(err){
