@@ -246,20 +246,20 @@ app.post(`/postLocations`,async(req,res)=>{
         const { device_id , device_lat , device_long  , userName} = req.body;
 
         let ifDevice = await deviceLocations.findOne({device_id:device_id});
-        
+
         if(!ifDevice){
-            res.status(400).json({status:"failed" , msg:"already done"})
+            const addToken = new deviceLocations({
+                device_id: device_id,
+                device_lat: device_lat,
+                device_long: device_long,
+                userName:userName
+    
+                }).save().then(
+                    res.status(200).json({status: 'Success', msg: 'token added successfully'})
+                )
         }
         else{
-            const addToken = new deviceLocations({
-            device_id: device_id,
-            device_lat: device_lat,
-            device_long: device_long,
-            userName:userName
-
-            }).save().then(
-                res.status(200).json({status: 'Success', msg: 'token added successfully'})
-            )
+            res.status(400).json({status:"failed" , msg:"already done"});
         }
     }
     catch(err){
