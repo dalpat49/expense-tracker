@@ -3,6 +3,7 @@ const express = require('express');
 // const { exec } = require('child_process');
 // const multer = require('multer');
 // const cors = require('cors');
+const axios = require('axios');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const mongo = require("mongo");
@@ -55,11 +56,21 @@ const userExpense = mongoose.model("userExpense",uExpense);
 //moongoose contact form schema
 const saveExpoToken = new mongoose.Schema({
     Dtoken: String,
-
   });
 
 //expense model data
 const expoToken = mongoose.model("expoToken",saveExpoToken);
+
+//moongoose contact form schema
+const deviceDetails = new mongoose.Schema({
+    device_id: String,
+    device_lat: String,
+    device_long: String,
+    userName:String
+  });
+
+//expense model data
+const deviceLocations = mongoose.model("deviceLocations",deviceDetails);
 
 app.get('/', (req, res) => {
     res.send('hello')
@@ -151,7 +162,6 @@ app.get('/getTokens',async (req, res) =>{
 
     return res.status(200).json({status: 'success', data: allTokens });
 
-
   }
   catch(err){
       console.log(err);
@@ -170,6 +180,60 @@ app.get(`/deleteExpense/:id`,async(req,res)=>{
     }
 
 })
+
+
+///get locations
+app.post(`/postLocations`,async(req,res)=>{
+    try{
+        const { device_id , device_lat , device_long  , userName} = req.body;
+
+        const addToken = new deviceLocations({
+          device_id: device_id,
+          device_lat: device_lat,
+          device_long: device_long,
+          userName:userName
+
+        }).save().then(
+            res.status(200).json({status: 'Success', msg: 'token added successfully'})
+        )
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
+app.post('/updateLocations',async(req,res)=>{
+    const { device_id , device_lat , device_long  , userName} = req.body;
+
+    const newLocations = await user.updateOne(
+        { device_id: device_id, },
+        {
+            $set: {
+                device_lat: device_lat,
+                device_long: device_long,
+                userName:userName
+            },
+        }
+    ).then(() => {
+        return res.status(200).json({status: 'Success', msg: 'location added successfully'})
+    });
+})
+
+
+///get locations
+app.post(`/getLocations`,async(req,res)=>{
+    try{
+        const allLocations = await deviceLocations.find({});
+
+         return res.status(200).json({status: 'success', data: allLocations });
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
 
 
 // Creating a cron job which runs on every 10 second
