@@ -168,7 +168,7 @@ app.post('/userLogin',async (req, res) =>{
                 res.status(200).json({status:"Success"  , msg:"user Login"})
             }
             else{
-                res.status(400).json({status:"failed" , msg:"Incorrect password"})
+                res.status(200).json({status:"failed" , msg:"Incorrect password"})
             }
         }
 
@@ -192,6 +192,18 @@ app.post('/userExpensesPOST',async (req, res) =>{
           res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
       )
 
+  }
+  catch(err){
+      console.log(err);
+  }
+});
+
+
+app.post('/getuserexpenses',async (req, res) =>{
+  try{
+    const getuserexpenses = await userExpense.find({});
+
+    return res.status(200).json({status: 'success', data: getuserexpenses });
   }
   catch(err){
       console.log(err);
