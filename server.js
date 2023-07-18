@@ -3,7 +3,6 @@ const express = require('express');
 // const { exec } = require('child_process');
 // const multer = require('multer');
 // const cors = require('cors');
-const axios = require('axios');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const mongo = require("mongo");
