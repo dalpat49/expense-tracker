@@ -161,11 +161,11 @@ app.post('/userLogin',async (req, res) =>{
         let ifEmail = await user.findOne({email:email});
 
         if(!ifEmail){
-            res.status(400).json({status:"failed" , msg:"User not registred"})
+            res.status(200).json({status:"failed" , msg:"User not registred"})
         }
         else if(ifEmail){
             if(password == ifEmail.password){
-                res.status(200).json({status:"Success"  , msg:"user Login"})
+                res.status(200).json({status:"Success"  , msg:"user Login" , user:ifEmail})
             }
             else{
                 res.status(200).json({status:"failed" , msg:"Incorrect password"})
@@ -199,8 +199,9 @@ app.post('/userExpensesPOST',async (req, res) =>{
 });
 
 
-app.post('/getuserexpenses',async (req, res) =>{
+app.get('/getuserexpenses',async (req, res) =>{
   try{
+    
     const getuserexpenses = await userExpense.find({});
 
     return res.status(200).json({status: 'success', data: getuserexpenses });
