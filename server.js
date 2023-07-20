@@ -199,10 +199,10 @@ app.post('/userExpensesPOST',async (req, res) =>{
 });
 
 
-app.get('/getuserexpenses',async (req, res) =>{
+app.get('/getuserexpenses/:id',async (req, res) =>{
   try{
-    
-    const getuserexpenses = await userExpense.find({});
+    let getUserEmaail = req.params.id;
+    const getuserexpenses = await userExpense.find({email:getUserEmaail});
 
     return res.status(200).json({status: 'success', data: getuserexpenses });
   }
