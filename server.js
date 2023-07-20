@@ -46,7 +46,7 @@ const uExpense = new mongoose.Schema({
     amount: Number,
     description: String,
     savedDate:String,
-    username:String,
+    email:String,
   });
 
 //expense model data
@@ -188,6 +188,7 @@ app.post('/userExpensesPOST',async (req, res) =>{
           description:description1,
           amount:Number(amount1),
           savedDate:savedate,
+          email:req.body.email,
       }).save().then(
           res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
       )
@@ -202,7 +203,7 @@ app.post('/userExpensesPOST',async (req, res) =>{
 app.get('/getuserexpenses/:id',async (req, res) =>{
   try{
     let getUserEmaail = req.params.id;
-    const getuserexpenses = await userExpense.find({email:getUserEmaail});
+    const getuserexpenses = await userExpense.findOne({email:getUserEmaail});
 
     return res.status(200).json({status: 'success', data: getuserexpenses });
   }
