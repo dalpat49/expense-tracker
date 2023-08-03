@@ -104,7 +104,15 @@ app.get('/expense', async(req, res) => {
              }}
         }}
     ])
-   
+    let totalvalue = 0;
+   if(allDatas[0].totalValue == undefined)
+   {
+
+    totalvalue = 0;
+   }
+   else{
+    totalvalue = allDatas[0].totalValue;
+   }
  
     return res.status(200).json({status: 'success', data: allData , sum: allDatas[0].totalValue});
 });
