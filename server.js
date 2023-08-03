@@ -35,6 +35,7 @@ const expesnseData = new mongoose.Schema({
     amount: Number,
     description: String,
     savedDate:String,
+    category: String,
     username:String,
   });
 
@@ -110,14 +111,15 @@ app.get('/expense', async(req, res) => {
 
 app.post('/getExpenses',async (req, res) =>{
     try{
-        const { description1 , amount1 ,savedate , userName} = req.body;
+        const { description1 , amount1 ,savedate , userName , getcategory} = req.body;
 
 
         const additemcategory = new expense({
             description:description1,
             amount:Number(amount1),
             savedDate:savedate,
-            username:userName
+            username:userName,
+            category:getcategory,
         }).save().then(
             res.status(200).json({status: 'Success', msg: 'Data saved successfully'})
         )
