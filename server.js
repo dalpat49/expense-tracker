@@ -114,7 +114,7 @@ app.get('/expense', async(req, res) => {
     totalvalue = allDatas[0].totalValue;
    }
  
-    return res.status(200).json({status: 'success', data: allData , sum: allDatas[0].totalValue});
+    return res.status(200).json({status: 'success', data: allData , sum: totalvalue});
 });
 
 app.post('/getExpenses',async (req, res) =>{
