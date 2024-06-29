@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //conect db
 const password = encodeURIComponent("Ravindra@123");
 //conect db
-const db = `mongodb+srv://singhdalpat8182:Ravindra%40123@cluster0.xbqceub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+const db = `mongodb+srv://singhdalpat8182:dalpatsinghrathore123@cluster0.xbqceub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
 mongoose.connect(db, {
   useNewUrlParser: true,
