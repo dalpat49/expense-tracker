@@ -39,6 +39,8 @@ const expesnseData = new mongoose.Schema({
     username:String,
   });
 
+
+  
 //expense model data
 const expense = mongoose.model("expense",expesnseData);
 
