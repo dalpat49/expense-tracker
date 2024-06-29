@@ -16,10 +16,11 @@ app.use(express.json());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const username = encodeURIComponent("singhdalpat8182");
+
+//conect db
 const password = encodeURIComponent("Ravindra@123");
 //conect db
-const db = `mongodb+srv://${username}:${password}@cluster0.xbqceub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+const db = `mongodb+srv://singhdalpat8182:${password}@cluster0.xbqceub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
 mongoose.connect(db, {
   useNewUrlParser: true,
@@ -39,8 +40,6 @@ const expesnseData = new mongoose.Schema({
     category: String,
     username:String,
   });
-
-
 
 //expense model data
 const expense = mongoose.model("expense",expesnseData);
