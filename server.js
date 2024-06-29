@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //conect db
-const db = "mongodb+srv://singhdalpat8182:ravindra@cluster0.xbqceub.mongodb.net/?retryWrites=true&w=majority"
+const db = "mongodb+srv://singhdalpat8182:Ravindra@123@cluster0.xbqceub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 mongoose.connect(db, {
   useNewUrlParser: true,
