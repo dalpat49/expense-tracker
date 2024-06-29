@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //conect db
-const password = encodeURIComponent("Ravindra@123");
+const password = encodeURIComponent("singhdalpat8182");
 //conect db
-const db = `mongodb+srv://singhdalpat8182:dalpatsinghrathore123@cluster0.xbqceub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
-
+const db = `mongodb+srv://singhdalpat8182:cxI2M6BNTNP4T70j@cluster0.xbqceub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+ 
 mongoose.connect(db, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
